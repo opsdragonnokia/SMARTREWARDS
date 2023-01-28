@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Computer Science IA List of Customers</title>
+    <link rel="stylesheet" href="css/mystyle.css" type="text/css"/>
+    <script>
+        function getUserList() {
+            //remote call retrieveUserList
+            document.querySelector("#accountDetails").disabled = true;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+
+                    if (this.status >= 200 && this.status <= 210) {
+                        var response = xhttp.responseText;
+
+                        var users = JSON.parse(response);
+                        //console.log(users.length);
+                        if (users.length > 0)
+                            document.querySelector("#accountDetails").disabled = false;
+                        let options = " <option>--Select User--</option>";
+                        for (let i = 0; i < users.length; i++) {
+
+                            options += `<option value=${i}>${users[i]}</option>`;
+                        }
+                        //console.log(options);
+
+                        let listElement = document.querySelector("#listUsers");
+                        //console.log(listElement);
+                        listElement.innerHTML = options;
+                    }
+                    else {
+                        alert("Error occured[" + xhttp.responseText+"]");
+                    }
+                    
+ 
+
+                }
+            };
+                         
+            xhttp.open("GET", "/User/retrieveUserList", true);
+            xhttp.send();
+
+
+        }
+        function getAccount() {
+
+            let selectedUser = document.querySelector("#listUsers").value;
+            alert("Selected user:" + selectedUser);
+            location.href = "Users.html?user="+selectedUser;
+        }
+    </script>
+    
+
+
+</head>
+
+
+<body onload="getUserList()" style="background-color:rgb(54, 54, 54)">
+    <div class="centered">
+        <h2 align="center">Welcome</h2>
+        <table border="0" class="printTable" align="center">
+            <tr>
+                <td class="label" colspan="2" style="text-align: center;">Login</td>
+
+            </tr>
+
+            <tr>
+                <td class="label">Select User</td>
+                <td>
+                    <select id="listUsers">
+                        <option>--Select User--</option>
+
+                    </select>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button onclick="getAccount()" class="actionButton" id="accountDetails">
+                        Get Account Information
+                    </button>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Select a user from available user list. List of users is set on the blockchain by admin user</td>
+            </tr>
+
+        </table>
+
+
+    </div>
+
+</body>
+</html>

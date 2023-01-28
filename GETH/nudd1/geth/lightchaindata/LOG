@@ -1,0 +1,8 @@
+=============== Jul 1, 2022 (+08) ===============
+22:22:21.811190 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:22:21.929118 db@open opening
+22:22:21.951449 version@stat F·[] S·0B[] Sc·[]
+22:22:21.968733 db@janitor F·2 G·0
+22:22:21.973770 db@open done T·41.5074ms
+22:22:22.015490 db@close closing
+22:22:22.030808 db@close done T·15.3181ms

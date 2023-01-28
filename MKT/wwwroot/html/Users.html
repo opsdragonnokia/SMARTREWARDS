@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>User Account Page</title>
+    <link rel="stylesheet" href="css/mystyle.css" type="text/css" />
+    <script>
+        var selectedUser = "";
+
+        function getQueryString() {
+              
+            selectedUser = getParameterByName("user");
+            getAccountFromServer();
+            loadMerchants();
+
+
+            document.querySelector("#merchants").addEventListener("change",
+            e=>
+            {
+                let merch = document.querySelector("#merchants").value;
+                console.log(`${merch}: selected`);
+               
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+
+                    if (this.status >= 200 && this.status <= 210) {
+                        var response = xhttp.responseText;
+                        console.log(response);
+
+                        let invList = JSON.parse(response);//Array
+                        console.log(invList);
+                        let inventory = "<table><tr><td>MerchantID</td><td>ItemID</td><td>ItemName</td><td>Price</td><td>Quantity</td><td>Points</td><td>Purchase</td></tr>"
+
+                        for (let i = 0; i < invList.length; i++) {
+                            let buttonID = `${invList[i].itemId}+${invList[i].merchantId}`
+                        inventory += `<tr><td>${invList[i].merchantId}</td><td>${invList[i].itemId}</td><td>${invList[i].itemName}</td><td>${invList[i].price}</td><td>${invList[i].quantity}</td><td>${invList[i].pointUnitValue}</td><td><button id="${buttonID}" itemID="${invList[i].itemName}" onclick="buy(this)">Buy</button></td></tr>`;
+                        }
+                        inventory+="</table>";
+
+
+                        let listElement = document.querySelector("#itemplaceholder");
+                        
+                        listElement.innerHTML = inventory;
+
+                        //Iterate invList as Array
+                        //each item extract properties such as merchantId
+                        //item[i].merchantId, item[i].itemName
+                        //<td>item[i].PointsBalance</td>
+
+                            //find itemplaceholder
+                            //.innerHTML with dynamic table
+
+                    }
+                    else {
+                        alert("Error occured[" + xhttp.responseText + "]");
+                    }
+                }
+            };
+            
+            xhttp.open("GET", `/Merchant/retrieveInventory?merchantId=${merch}`, true);
+            xhttp.send();
+
+
+            }
+            );;
+           
+        }
+        function buy(item)
+        {
+            console.log(item);
+            alert(item.id);
+            alert(item.getAttribute("itemName"));
+        }
+        function getAccountFromServer() {
+            if (!selectedUser) {
+                alert("No user selected. Unable to fetch Account details");
+                return;
+            }
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+
+                    if (this.status >= 200 && this.status <= 210) {
+                        var response = xhttp.responseText;
+
+                      
+
+                        let userDetail = JSON.parse(response);
+                        console.log(userDetail);
+                    }
+                    else {
+                        alert("Error occured[" + xhttp.responseText + "]");
+                    }
+
+
+
+                }
+            };
+            //User/retrieveUserAccount?inputUserID=beary
+            xhttp.open("GET", "/User/retrieveUserAccount?inputUserID="+selectedUser, true);
+            xhttp.send();
+
+             
+        }
+        function getBalance(walletId) {
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+
+                    if (this.status >= 200 && this.status <= 210) {
+                        var response = xhttp.responseText;
+
+                        console.log(response);
+
+                        document.querySelector("#balanceDisplay").value = response;
+
+                       
+                        //
+
+
+
+                    }
+                    else {
+                        alert("Error occured[" + xhttp.responseText + "]");
+                    }
+
+
+
+                }
+            };
+            //User/retrieveUserAccount?inputUserID=beary
+            xhttp.open("GET", "/User/retrieveUserBalance?walletId=" + walletId, true);
+            xhttp.send();
+        }
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function loadMerchants()
+        {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+
+                    if (this.status >= 200 && this.status <= 210) {
+                        var response = xhttp.responseText;
+
+                        console.log(response);
+
+                        var merchants = JSON.parse(response);
+                        //console.log(users.length);
+                        let options = " <option>--Select Merchant--</option>";
+                        for (let i = 0; i < merchants.length; i++) {
+
+                            options += `<option>${merchants[i]}</option>`;
+                        }
+                        //console.log(options);
+
+                        let listElement = document.querySelector("#merchants");
+                        //console.log(listElement);
+                        listElement.innerHTML = options;
+                        
+                       
+                        
+
+
+
+                    }
+                    else {
+                        alert("Error occured[" + xhttp.responseText + "]");
+                    }
+
+
+
+                }
+            };
+            
+            xhttp.open("GET", "/Merchant/retrieveMerchantList", true);
+            xhttp.send();
+
+        }
+        
+
+    </script>
+
+</head>
+
+<body onload="getQueryString()" style="background-color:rgb(54, 54, 54)">
+
+
+
+<div class="centered2">
+    <h2 id="documentTitle">Account Details for </h2>
+    <table class="printTable" width="100%" border="1">
+        <tr>
+            <td class="label">Name:</td>
+            <td><input id="fullname" readonly type="text"></td>
+
+        </tr>
+        <tr>
+            <td class="label">Wallet:</td>
+            <td><input id="walletId" readonly type="text"></td>
+
+        </tr>
+                <tr>
+            <td class="label">Balance:</td>
+            <td><input id="balanceDisplay" readonly type="text"></td>
+
+        </tr>
+
+       
+    </table>
+    
+    <br/>
+       <table border="1" > 
+        <tr>
+            <td class="label" style="text-align: center;" colspan="6">Transaction History</td>
+
+        </tr>
+        <tr id="transactionHistory" >
+            <td>ItemName</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Rewards Recieved</td>
+            <td>Date of Purchase</td>
+            <td>Merchant</td>
+
+        </tr>
+    
+
+    </table>
+    <br/>
+    <table style="" border="1">
+        <tr><td class="label" style="text-align: center;" colspan="1">Merchants</td></tr>
+        <tr><td><select id="merchants">
+            <option>--Select Merchant--</option>
+            <option></option>
+        </select></td></tr>
+        <tr><td>Items</td></tr>
+        <tr><td id="itemplaceholder"></td></tr>
+    </table>
+
+    </div>
+
+</body>
+
+</html>

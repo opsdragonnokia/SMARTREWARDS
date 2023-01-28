@@ -1,0 +1,1 @@
+geth --datadir nchain --networkid 1337 --dev --http --http.corsdomain "https://remix.ethereum.org,moz-extension://a25dae84-11d6-4cce-8ce2-f7fcb13a3257" --http.api web3,eth,debug,personal,net --ws --ws.api web3,eth,debug,personal,net --vmdebug console

@@ -1,0 +1,31 @@
+=============== Jul 1, 2022 (+08) ===============
+22:22:21.379125 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:22:21.529535 db@open opening
+22:22:21.619717 version@stat F·[] S·0B[] Sc·[]
+22:22:21.642005 db@janitor F·2 G·0
+22:22:21.643755 db@open done T·112.2802ms
+22:22:21.745803 db@close closing
+22:22:21.759064 db@close done T·13.2612ms
+=============== Jul 1, 2022 (+08) ===============
+22:22:26.500078 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:22:26.563792 version@stat F·[] S·0B[] Sc·[]
+22:22:26.566269 db@open opening
+22:22:26.572474 journal@recovery F·1
+22:22:26.625509 journal@recovery recovering @1
+22:22:26.671879 memdb@flush created L0@2 N·12 S·883B "Hڀ..\x1fE\x94,v5":"\x97\xd90..%[,,v2"
+22:22:26.689039 version@stat F·[1] S·883B[883B] Sc·[0.25]
+22:22:26.870622 db@janitor F·3 G·0
+22:22:26.875318 db@open done T·306.8026ms
+22:22:27.191682 db@close closing
+22:22:27.197995 db@close done T·6.3124ms
+=============== Jul 1, 2022 (+08) ===============
+22:22:27.246463 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:22:27.277876 version@stat F·[1] S·883B[883B] Sc·[0.25]
+22:22:27.280169 db@open opening
+22:22:27.286517 journal@recovery F·1
+22:22:27.331342 journal@recovery recovering @3
+22:22:27.406653 version@stat F·[1] S·883B[883B] Sc·[0.25]
+22:22:27.566297 db@janitor F·3 G·0
+22:22:27.567982 db@open done T·286.01ms
+22:23:48.151870 db@close closing
+22:23:48.166633 db@close done T·14.7632ms
